@@ -5,3 +5,16 @@ node_modules/
 /content/big.txt
 
 
+
+# Ignore log files
+*.log
+
+# Ignore node_modules folder
+node_modules/
+/content/big.txt
+
+# Ignore macOS metadata
+.DS_Store
+
+# Ignore environment variables
+.env
