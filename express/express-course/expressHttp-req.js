@@ -56,6 +56,28 @@ app.post("/login", (req, res) => {
   res.status(401).send("please provide credentials");
 });
 
+//PUT
+app.put('/api/people/:id', (req, res) => {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    //check if person with id exists
+    const person = people.find((person) => person.id === Number(id));
+
+    if(!person){
+        return res.status(404).json({success: false, msg: `no person with id ${id}`})
+    }
+
+    //if id matches then change the key value and return the new array with updated value
+    const newPeople = people.map((person) => {
+        if(person.id === Number(id)){
+            person.name =  { ...person, name };
+        }
+        return person;
+    })
+    res.status(201).json({success: true, data: newPeople})
+})
+
 app.listen(5000, () => {
   console.log("server listening at port 5000");
 });
