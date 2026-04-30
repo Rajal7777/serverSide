@@ -19,7 +19,7 @@ app.get("/api/people", (req, res) => {
   res.status(200).json({ success: true, data: people });
 });
 
-//Javascript post 
+//Javascript post
 
 app.post("/api/people", (req, res) => {
   const { name } = req.body;
@@ -29,7 +29,18 @@ app.post("/api/people", (req, res) => {
       .status(400)
       .json({ success: false, msg: "PLease provide the credentials" });
   }
-  res.status(201).json({ success: true,person: name  });
+  res.status(201).json({ success: true, person: name });
+});
+
+//Test Post
+app.post("/api/postman/people", (req, res) => {
+  const { name } = req.body;
+
+  if (!name) {
+    return res.status(401).json({ success: false, msg: "Please provide name" });
+  }
+
+  res.status(201).json({ success: true, data: [...people, name] });
 });
 
 //POST
