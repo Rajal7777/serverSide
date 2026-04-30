@@ -8,15 +8,15 @@ const logger = (req, res, next) => {
   const method = req.method;
   const url = req.url;
   const time = new Date().getFullYear();
-  console.log("method:", method, "url:", url, "time:", time); //default GET/ '/'2026
+  console.log("method:", method, "url:", url, "time:", time);
   next(); // this will return to the app.get the next process
 };
 
-app.get("/", logger, (req, res) => {
+app.get("/", (req, res) => {
   res.send("Home");
 });
 
-app.get("/about", logger, (req, res) => {
+app.get("/about", (req, res) => {
   res.send("About");
 });
 
