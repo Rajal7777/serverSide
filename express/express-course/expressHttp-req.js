@@ -26,10 +26,10 @@ app.post("/api/people", (req, res) => {
 
   if (!name) {
     return res
-      .status(400)
+      .status(404)
       .json({ success: false, msg: "PLease provide the credentials" });
   }
-  res.status(201).json({ success: true, person: name });
+  res.status(200).json({ success: true, person: name });
 });
 
 //Test Post
@@ -37,10 +37,10 @@ app.post("/api/postman/people", (req, res) => {
   const { name } = req.body;
 
   if (!name) {
-    return res.status(401).json({ success: false, msg: "Please provide name" });
+    return res.status(404).json({ success: false, msg: "Please provide name" });
   }
 
-  res.status(201).json({ success: true, data: [...people, name] });
+  res.status(200).json({ success: true, data: [...people, name] });
 });
 
 //POST
@@ -53,30 +53,50 @@ app.post("/login", (req, res) => {
   }
 
   //no name
-  res.status(401).send("please provide credentials");
+  res.status(404).send("please provide credentials");
 });
 
 //PUT
-app.put('/api/people/:id', (req, res) => {
-    const { id } = req.params;
-    const { name } = req.body;
+app.put("/api/people/:id", (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
 
-    //check if person with id exists
-    const person = people.find((person) => person.id === Number(id));
+  //check if person with id exists
+  const person = people.find((person) => person.id === Number(id));
 
-    if(!person){
-        return res.status(404).json({success: false, msg: `no person with id ${id}`})
+  if (!person) {
+    return res
+      .status(404)
+      .json({ success: false, msg: `no person with id ${id}` });
+  }
+
+  //if id matches then change the key value and return the new array with updated value
+  const newPeople = people.map((person) => {
+    if (person.id === Number(id)) {
+      person.name = { ...person, name };
     }
+    return person;
+  });
+  res.status(200).json({ success: true, data: newPeople });
+});
 
-    //if id matches then change the key value and return the new array with updated value
-    const newPeople = people.map((person) => {
-        if(person.id === Number(id)){
-            person.name =  { ...person, name };
-        }
-        return person;
-    })
-    res.status(201).json({success: true, data: newPeople})
-})
+//Delete
+app.delete("/api/people/:id", (req, res) => {
+  const person = people.find((person) => person.id === Number(req.params.id));
+
+  if (!person) {
+    return res
+      .status(404)
+      .json({ success: false, msg: "Can not find the user" });
+  }
+
+  const newPeople = people.filter(
+    (person) => person.id !== Number(req.params.id),
+  );
+  //  { return person.id !== Number(req.params.id);});
+
+  return res.status(200).json({ success: true, data: newPeople });
+});
 
 app.listen(5000, () => {
   console.log("server listening at port 5000");
