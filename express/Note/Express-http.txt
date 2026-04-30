@@ -1,0 +1,11 @@
+app.use()
+this adds the middleware
+
+express.urlencoded()
+this is a express middleware which understands the data sent from a HTML from
+
+
+<input name="username" value="John">
+<input name="age" value="25">
+
+here name is what we need and the username will be the key and the value provided by the user in username { username=Jhon&age=25} here key is {username, age} = values are{ john, 25}
