@@ -1,10 +1,11 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 
 const people = require("./routes/people");
 const auth = require("./routes/auth");
 
-app.use(express.static("../public"));
+app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(express.urlencoded({ extended: false }));
 
