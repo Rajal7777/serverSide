@@ -11,6 +11,23 @@ const getAllTasks = (req, res) => {
   res.send("all tasks");
 };
 
+const getTask = (req, res) => {
+  res.send(req.baody);
+}
+const createTask = (req, res) => {
+  res.send(req.baody);
+}
+const updateTask = (req, res) => {
+  res.send(req.baody);
+}
+const deleteTask = (req, res) => {
+  res.send(req.baody);
+}
+
 module.exports = {
   getAllTasks,
+  getTask,
+  createTask,
+  updateTask,
+  deleteTask
 };
