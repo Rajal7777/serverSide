@@ -11,9 +11,6 @@ const {
 } = require("../controllers/tasks");
 
 // When a user makes a HTTP 'GET' request here, fire the 'getAllTasks' logic.
-router.route("/").get(getAllTasks);
-router.route("/:id").get(getTask);
-router.route("/").post(createTask);
-router.route("/:id").patch(updateTask);
-router.route("/:id").delete(deleteTask);
+router.route('/').get(getAllTasks).post(createTask);
+router.route('/:id').get(getTask).patch(updateTask).delete(deleteTask);
 module.exports = router;
