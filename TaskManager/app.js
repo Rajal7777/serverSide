@@ -1,8 +1,9 @@
-require("dotenv").config();
 const express = require("express");
 const app = express();
 const tasks = require("./routes/tasks");
 const connectDB = require("./db/connect");
+require("dotenv").config();
+
 
 //routes
 app.get("/home", (req, res) => {
@@ -15,7 +16,7 @@ app.use(express.json());
 app.use("/api/v1/tasks", tasks);
 
 const Port = 4000;
-console.log(process.env.MONGO_URI);
+// console.log(process.env.MONGO_URI);
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);

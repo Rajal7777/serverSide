@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const TaskSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "must provide name"],
+    required: [true, "name must be provided"],
     trim: true,
     maxlength: [20, "name can not be more than 20 characters"],
   },
@@ -13,7 +13,6 @@ const TaskSchema = new mongoose.Schema({
     default: false,
   },
 });
-
 
 //export mongoose model in a Node.js environment
 //model name: Task is the name of folder of data collection in the database
