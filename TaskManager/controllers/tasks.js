@@ -8,6 +8,7 @@
 // GET /api/v1/tasks {for getting all tasks}
 const Task = require("../models/Task");
 
+//Get all task
 const getAllTasks = async (req, res) => {
   try {
     //get all the tasks via mongoose query find method
@@ -18,6 +19,7 @@ const getAllTasks = async (req, res) => {
   }
 };
 
+//Create Task
 const createTask = async (req, res) => {
   try {
     const task = await Task.create(req.body);
@@ -27,9 +29,23 @@ const createTask = async (req, res) => {
   }
 };
 
-const getTask = (req, res) => {
-  res.send("get single task");
+//Get single Task
+const getTask = async (req, res) => {
+  try {
+    // Extract the task ID from the URL parameters
+    const { id: taskID } = req.params;  //Destructure and rename the 'id' parameter to 'taskID'
+    const task = await Task.findOne({ _id: taskID });
+    //if no task found
+    if (!task) {
+      return res.status(404).json({ msg: `No task found with id : ${taskID}` });
+    }
+
+    res.status(200).json({ task });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
 };
+
 const updateTask = (req, res) => {
   res.json({ id: req.params.id, ...req.body });
 };
