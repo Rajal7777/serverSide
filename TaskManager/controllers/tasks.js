@@ -8,8 +8,14 @@
 // GET /api/v1/tasks {for getting all tasks}
 const Task = require("../models/Task");
 
-const getAllTasks = (req, res) => {
-  res.send("all tasks");
+const getAllTasks = async (req, res) => {
+  try {
+    //get all the tasks via mongoose query find method
+    const tasks = await Task.find({});
+    res.status(201).json({ tasks });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
 };
 
 const createTask = async (req, res) => {
