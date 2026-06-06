@@ -46,8 +46,18 @@ const getTask = async (req, res) => {
   }
 };
 
-const updateTask = (req, res) => {
-  res.json({ id: req.params.id, ...req.body });
+//UPDATE Task
+const updateTask = async (req, res) => {
+  try {
+    const { id: TaskID } = req.params;
+    const task = await Task.findOneAndUpdate({ _id: TaskID }, req.body, {
+      new: true, // Return the updated document
+      runValidators: true, // Run schema validators on the update
+    });
+    res.status(200).json({ task });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
 };
 
 //Delete Task
