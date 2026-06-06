@@ -1,20 +1,30 @@
-const express = require('express');
-require('./db/connect');
+require("dotenv").config();
+const express = require("express");
 const app = express();
-const tasks = require('./routes/tasks');
+const tasks = require("./routes/tasks");
+const connectDB = require("./db/connect");
 
 //routes
-app.get('/home', (req, res) => {
-    res.send('Welcome to the hood!')
-})
+app.get("/home", (req, res) => {
+  res.send("Welcome to the hood!");
+});
 
 //to make our express app understand json data coming in from the client, we need to use this middleware. It parses incoming JSON requests and puts the parsed data in req.body.
 app.use(express.json());
 
-app.use('/api/v1/tasks', tasks);
+app.use("/api/v1/tasks", tasks);
 
 const Port = 4000;
+console.log(process.env.MONGO_URI);
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    app.listen(Port, () => {
+      console.log(`server is listening on port ${Port}...`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-app.listen(Port, () => {
-    console.log(`server is listening on port ${Port}...`);
-});
+start();

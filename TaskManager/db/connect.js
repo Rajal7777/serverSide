@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 
-const connectionString =
-  "mongodb+srv://suwalrajal57:Reckon2utron22@cluster0.1wswpuz.mongodb.net/TaskManager?retryWrites=true&w=majority";
+const connectDB = (url) => {
+  return mongoose.connect(url);
+};
 
-mongoose
-  .connect(connectionString)
-  .then(() => console.log("connected to database"))
-  .catch((err) => console.log(err));
+module.exports = connectDB;
