@@ -33,7 +33,7 @@ const createTask = async (req, res) => {
 const getTask = async (req, res) => {
   try {
     // Extract the task ID from the URL parameters
-    const { id: taskID } = req.params;  //Destructure and rename the 'id' parameter to 'taskID'
+    const { id: taskID } = req.params; //Destructure and rename the 'id' parameter to 'taskID'
     const task = await Task.findOne({ _id: taskID });
     //if no task found
     if (!task) {
@@ -49,8 +49,21 @@ const getTask = async (req, res) => {
 const updateTask = (req, res) => {
   res.json({ id: req.params.id, ...req.body });
 };
-const deleteTask = (req, res) => {
-  res.json({ id: req.params.id });
+
+//Delete Task
+const deleteTask = async (req, res) => {
+  try {
+    const { id: TaskID } = req.params;
+    const task = await Task.findOneAndDelete({ _id: TaskID });
+
+    if (!task) {
+      return res.status(404).json({ msg: `No task found with id : ${TaskID}` });
+    }
+
+    res.status(200).json({ task });
+  } catch (error) {
+    res.status(500).json({ msg: error });
+  }
 };
 
 module.exports = {
