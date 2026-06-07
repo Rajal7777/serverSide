@@ -9,17 +9,11 @@ require("dotenv").config();
 app.use(express.json());
 
 // Serve static files from the "public" directory
-app.use(express.static("./public")); 
-
-//routes
-// app.get("/home", (req, res) => {
-//   res.send("Welcome to the hood!");
-// });
+app.use(express.static("./public"));
 
 
+//middleware
 app.use("/api/v1/tasks", tasks);
-
-// Middleware for handling 404 errors
 app.use(notFound);
 
 const Port = 4000;
