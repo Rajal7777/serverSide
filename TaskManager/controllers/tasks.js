@@ -8,6 +8,7 @@
 // GET /api/v1/tasks {for getting all tasks}
 const Task = require("../models/Task");
 const asyncWrapper = require("../middleware/async");
+const { createCustomError } = require("../errors/custom-error");
 
 //Get all task
 //ALTERNATE METHOD
@@ -32,7 +33,8 @@ const getTask = asyncWrapper(async (req, res) => {
   const task = await Task.findOne({ _id: taskID });
   //if no task found
   if (!task) {
-    return res.status(404).json({ msg: `No task found with id : ${taskID}` });
+    const error = createCustomError(`No task found with id : ${taskID}`, 404);
+    return next(error);
   }
 
   res.status(200).json({ task });
@@ -54,7 +56,8 @@ const deleteTask = asyncWrapper(async (req, res) => {
   const task = await Task.findOneAndDelete({ _id: TaskID });
 
   if (!task) {
-    return res.status(404).json({ msg: `No task found with id : ${TaskID}` });
+    const error = createCustomError(`No task found with id : ${TaskID}`, 404);
+    return next(error);
   }
 
   res.status(200).json({ task });
