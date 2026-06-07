@@ -2,18 +2,25 @@ const express = require("express");
 const app = express();
 const tasks = require("./routes/tasks");
 const connectDB = require("./db/connect");
+const notFound = require("./middleware/not-found");
 require("dotenv").config();
-
-
-//routes
-app.get("/home", (req, res) => {
-  res.send("Welcome to the hood!");
-});
 
 //to make our express app understand json data coming in from the client, we need to use this middleware. It parses incoming JSON requests and puts the parsed data in req.body.
 app.use(express.json());
 
+// Serve static files from the "public" directory
+app.use(express.static("./public")); 
+
+//routes
+// app.get("/home", (req, res) => {
+//   res.send("Welcome to the hood!");
+// });
+
+
 app.use("/api/v1/tasks", tasks);
+
+// Middleware for handling 404 errors
+app.use(notFound);
 
 const Port = 4000;
 // console.log(process.env.MONGO_URI);
