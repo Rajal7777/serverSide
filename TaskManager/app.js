@@ -17,8 +17,8 @@ app.use("/api/v1/tasks", tasks);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
-const Port = 4000;
-// console.log(process.env.MONGO_URI);
+const Port = process.env.PORT || 4000;
+
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
