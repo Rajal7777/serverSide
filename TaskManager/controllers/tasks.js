@@ -17,7 +17,7 @@ const { createCustomError } = require("../errors/custom-error");
 const getAllTasks = asyncWrapper(async (req, res) => {
   //get all the tasks via mongoose query find method
   const tasks = await Task.find({});
-  res.status(201).json({ tasks });
+  res.status(200).json({ tasks });
 });
 
 //Create Task
@@ -27,7 +27,7 @@ const createTask = asyncWrapper(async (req, res) => {
 });
 
 //Get single Task
-const getTask = asyncWrapper(async (req, res) => {
+const getTask = asyncWrapper(async (req, res, next) => {
   // Extract the task ID from the URL parameters
   const { id: taskID } = req.params; //Destructure and rename the 'id' parameter to 'taskID'
   const task = await Task.findOne({ _id: taskID });
@@ -51,7 +51,7 @@ const updateTask = asyncWrapper(async (req, res) => {
 });
 
 //Delete Task
-const deleteTask = asyncWrapper(async (req, res) => {
+const deleteTask = asyncWrapper(async (req, res, next) => {
   const { id: TaskID } = req.params;
   const task = await Task.findOneAndDelete({ _id: TaskID });
 
